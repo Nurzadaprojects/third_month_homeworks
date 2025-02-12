@@ -41,7 +41,7 @@ const startAutoSwitch = () => {
         currentIndex = (currentIndex + 1) % tabContentBlocks.length
         hideTabContent()
         showTabContent(currentIndex)
-    }, 4000)
+    }, 3000)
 }
 
 hideTabContent()
