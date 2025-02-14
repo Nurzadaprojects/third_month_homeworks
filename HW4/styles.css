@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+#personsContainer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.person-card {
+    background-color: white;
+    border: 1px solid pink;
+    border-radius: 8px;
+    padding: 15px;
+    width: 200px;
+    text-align: center;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+.person-card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.person-card h3 {
+    margin: 10px 0 5px;
+}
+
+.person-card p {
+    margin: 5px 0;
+    font-size: 14px;
+    color:blueviolet;
+}
