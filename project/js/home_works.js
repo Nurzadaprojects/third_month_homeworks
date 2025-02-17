@@ -131,3 +131,49 @@ document.addEventListener("DOMContentLoaded", function () {
     resetButton.addEventListener("click", resetTimer);
 
 })
+
+
+//Homework 4 
+function loadCharacters() {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "../data/characters.json", true); 
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                try {
+                    const characters = JSON.parse(xhr.responseText);
+                    console.log(characters); 
+                    displayCharacters(characters); 
+                } catch (error) {
+                    console.error("Ошибка при обработке данных:", error);
+                }
+            } else {
+                console.error("Ошибка запроса, статус:", xhr.status);
+            }
+        }
+    };
+
+    xhr.send();
+}
+
+function displayCharacters(characters) {
+    const container = document.getElementById("charactersContainer");
+    container.innerHTML = "";
+
+    characters.forEach(character => {
+        const card = document.createElement('div');
+        card.classList.add("character-card");
+        card.innerHTML = `
+            <img src="${character.character_photo}" alt="${character.name}">
+            <h3>${character.name}</h3>
+            <p>Age: ${character.age}</p>
+            <p>Job: ${character.job}</p>
+        `;
+        container.appendChild(card);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", loadCharacters);  
+
+

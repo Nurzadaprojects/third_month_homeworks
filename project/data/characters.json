@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Jim Carey",
+        "age": 30,
+        "job": "Frontend Developer",
+        "character_photo": "https://randomuser.me/api/portraits/men/1.jpg"
+    },
+    {
+        "name": "Nurzada Sher",
+        "age": 30,
+        "job": "Backend Developer",
+        "character_photo": "https://randomuser.me/api/portraits/women/2.jpg"
+    },
+    {
+        "name": "Kaney West",
+        "age": 40,
+        "job": "Designer",
+        "character_photo": "https://randomuser.me/api/portraits/men/3.jpg"
+    }
+]

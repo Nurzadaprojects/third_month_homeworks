@@ -37,4 +37,3 @@ setTimeout(() => {
         openModal();
     }
 }, 10000);
-
