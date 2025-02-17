@@ -1,0 +1,11 @@
+#colorBox {
+    width: 150px;
+    height: 150px;
+    background-color: white;
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+.active {
+    background-color: lightblue;
+}
