@@ -64,3 +64,94 @@ tabsParent.onclick = (event) => {
         })
     }
 }
+
+//CONVERTER
+
+const currencyInputs = document.querySelectorAll('input')
+let exchangeRates = {}
+
+const fetchRates = async () => {
+    try {
+        const response = await fetch('../data/converter.json')
+        exchangeRates = await response.json()
+    } catch (error) {
+        console.error('Incorrect exchange rate:', error)
+    }
+}
+
+const convert = (changedInput) => {
+    const value = parseFloat(changedInput.value) || 0
+    if (!exchangeRates.usd || !exchangeRates.eur) return
+
+    const rates = {
+        som: 1,
+        usd: 1 / exchangeRates.usd,
+        eur: 1 / exchangeRates.eur
+    }
+
+    const baseValue = value / rates[changedInput.id]
+
+    currencyInputs.forEach(input => {
+        if (input !== changedInput) {
+            input.value = (baseValue * rates[input.id]).toFixed(2)
+        }
+    })
+}
+
+const addEventListeners = () => {
+    currencyInputs.forEach(input => {
+        input.addEventListener('input', () => convert(input))
+    })
+}
+
+fetchRates().then(addEventListeners)
+
+
+//CARD SWITCHER Задание 1
+
+const cardBlock = document.querySelector('.card')
+const btnNext = document.querySelector('#btn-next')
+const btnPrev = document.querySelector('#btn-prev')
+
+let cardId = 1;
+const maxCardId =200;
+
+const loadCard = (id) => {
+    fetch(`https://jsonplaceholder.typicode.com/todos/${id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Ошибка ${response.status}: Пост не найден`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            cardBlock.innerHTML = `
+                <p>${data.title}</p>
+                <p>${data.completed}</p>
+                <span>${data.id}</span>
+            `;
+        })
+        .catch(error => {
+            console.error(error);
+            cardBlock.innerHTML = `<p>Ошибка загрузки данных</p>`;
+        });
+};
+btnNext.onclick = () => {
+    cardId = cardId >= maxCardId ? 1 : cardId + 1;
+    loadCard(cardId);
+};
+
+btnPrev.onclick = () => {
+    cardId = cardId <= 1 ? maxCardId : cardId - 1;
+    loadCard(cardId);
+};
+
+loadCard(cardId);
+
+
+//Отдельный fetch запрос Задание 2
+
+fetch('https://jsonplaceholder.typicode.com/posts')
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Ошибка загрузки постов:', error));
