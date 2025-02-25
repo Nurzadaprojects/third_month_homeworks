@@ -65,7 +65,7 @@ tabsParent.onclick = (event) => {
     }
 }
 
-//CONVERTER
+//CONVERTER Homework 5 + HW7
 
 const currencyInputs = document.querySelectorAll('input')
 let exchangeRates = {}
@@ -107,35 +107,37 @@ const addEventListeners = () => {
 fetchRates().then(addEventListeners)
 
 
-//CARD SWITCHER Задание 1
+//CARD SWITCHER Задание 6/1 + HW7
 
-const cardBlock = document.querySelector('.card')
-const btnNext = document.querySelector('#btn-next')
-const btnPrev = document.querySelector('#btn-prev')
+const cardBlock = document.querySelector('.card');
+const btnNext = document.querySelector('#btn-next');
+const btnPrev = document.querySelector('#btn-prev');
 
 let cardId = 1;
-const maxCardId =200;
+const maxCardId = 200;
 
-const loadCard = (id) => {
-    fetch(`https://jsonplaceholder.typicode.com/todos/${id}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Ошибка ${response.status}: Пост не найден`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            cardBlock.innerHTML = `
-                <p>${data.title}</p>
-                <p>${data.completed}</p>
-                <span>${data.id}</span>
-            `;
-        })
-        .catch(error => {
-            console.error(error);
-            cardBlock.innerHTML = `<p>Ошибка загрузки данных</p>`;
-        });
+const loadCard = async (id) => {
+    try {
+        const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`);
+
+        if (!response.ok) {
+            throw new Error(`Ошибка ${response.status}: Пост не найден`);
+        }
+
+        const data = await response.json();
+
+        cardBlock.innerHTML = `
+            <p>${data.title}</p>
+            <p>${data.completed ? '':''}</p>
+            <span>ID: ${data.id}</span>
+        `;
+
+    } catch (error) {
+        console.error(error);
+        cardBlock.innerHTML = `<p style="color: red;">Ошибка загрузки данных</p>`;
+    }
 };
+
 btnNext.onclick = () => {
     cardId = cardId >= maxCardId ? 1 : cardId + 1;
     loadCard(cardId);
@@ -149,9 +151,41 @@ btnPrev.onclick = () => {
 loadCard(cardId);
 
 
-//Отдельный fetch запрос Задание 2
 
-fetch('https://jsonplaceholder.typicode.com/posts')
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Ошибка загрузки постов:', error));
+
+//WEATHER Homework 7
+const searchInput = document.querySelector('.cityName');
+const searchButton = document.querySelector('#search');
+const city = document.querySelector('.city');
+const temp = document.querySelector('.temp');
+
+const API_URL = 'https://api.openweathermap.org/data/2.5/weather';
+const API_TOKEN = 'a235667499c3791a469f56a430301535';
+
+searchButton.onclick = async () => {
+    if (searchInput.value.trim() === '') {
+        city.innerHTML = 'Enter the city';
+        temp.innerHTML = '';
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}?appid=${API_TOKEN}&q=${searchInput.value}&lang=ru&units=metric`);
+
+        if (!response.ok) {
+            throw new Error(`Ошибка ${response.status}: Город не найден`);
+        }
+
+        const data = await response.json();
+
+        city.innerHTML = data.name || 'City is not found';
+        temp.innerHTML = data.main?.temp ? `${Math.round(data.main.temp)}°C` : '';
+
+    } catch (error) {
+        console.error('Ошибка:', error);
+        city.innerHTML = 'City is not found';
+        temp.innerHTML = '';
+    } finally {
+        searchInput.value = '';
+    }
+};
