@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //Вопрос 7
 document.getElementById('loadDataButton').addEventListener('click', async function() {
     try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts/1');
+        const response = await fetch('https://fakestoreapi.com/products');
         const data = await response.json();
        
         console.log(data);
