@@ -1,20 +1,4 @@
-const phoneInput = document.querySelector("#phone_input")
-const phoneButton = document.querySelector("#phone_button")
-const phoneResult = document.querySelector("#phone_result")
-
-const regExp = /^\+996 [2579]\d{2} \d{2}-\d{2}-\d{2}$/
-
-phoneButton.onclick = () => {
-    if (regExp.test(phoneInput.value)) {
-        phoneResult.innerHTML = 'OK'
-        phoneResult.style.color = 'green'
-    } else {
-        phoneResult.innerHTML = 'NOT OK'
-        phoneResult.style.color = 'red'
-    }
-}
-
-//TAB SLIDER homework 3 
+//TAB SLIDER homework 3
 
 const tabContentBlocks = document.querySelectorAll('.tab_content_block')
 const tabItems = document.querySelectorAll('.tab_content_item')
@@ -65,7 +49,8 @@ tabsParent.onclick = (event) => {
     }
 }
 
-//CONVERTER Homework 5 + HW7
+
+//CONVERTER Homework 5
 
 const currencyInputs = document.querySelectorAll('input')
 let exchangeRates = {}
@@ -107,7 +92,7 @@ const addEventListeners = () => {
 fetchRates().then(addEventListeners)
 
 
-//CARD SWITCHER Задание 6/1 + HW7
+//CARD SWITCHER Задание 6/1
 
 const cardBlock = document.querySelector('.card');
 const btnNext = document.querySelector('#btn-next');
@@ -151,41 +136,3 @@ btnPrev.onclick = () => {
 loadCard(cardId);
 
 
-
-
-//WEATHER Homework 7
-const searchInput = document.querySelector('.cityName');
-const searchButton = document.querySelector('#search');
-const city = document.querySelector('.city');
-const temp = document.querySelector('.temp');
-
-const API_URL = 'https://api.openweathermap.org/data/2.5/weather';
-const API_TOKEN = 'a235667499c3791a469f56a430301535';
-
-searchButton.onclick = async () => {
-    if (searchInput.value.trim() === '') {
-        city.innerHTML = 'Enter the city';
-        temp.innerHTML = '';
-        return;
-    }
-
-    try {
-        const response = await fetch(`${API_URL}?appid=${API_TOKEN}&q=${searchInput.value}&lang=ru&units=metric`);
-
-        if (!response.ok) {
-            throw new Error(`Ошибка ${response.status}: Город не найден`);
-        }
-
-        const data = await response.json();
-
-        city.innerHTML = data.name || 'City is not found';
-        temp.innerHTML = data.main?.temp ? `${Math.round(data.main.temp)}°C` : '';
-
-    } catch (error) {
-        console.error('Ошибка:', error);
-        city.innerHTML = 'City is not found';
-        temp.innerHTML = '';
-    } finally {
-        searchInput.value = '';
-    }
-};

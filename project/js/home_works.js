@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const childWidth = childBlock.clientWidth;
     const childHeight = childBlock.clientHeight;
     let direction = "right";
-    
+
     function moveBlock() {
         if (direction === "right") {
             if (positionX + childWidth < parentWidth) {
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 direction = "down";
             }
         }
-        
+
         if (direction === "down") {
             if (positionY + childHeight < parentHeight) {
                 positionY += step;
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 direction = "left";
             }
         }
-        
+
         if (direction === "left") {
             if (positionX > 0) {
                 positionX -= step;
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 direction = "up";
             }
         }
-        
+
         if (direction === "up") {
             if (positionY > 0) {
                 positionY -= step;
@@ -85,17 +85,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 direction = "right";
             }
         }
-        
+
         childBlock.style.left = `${positionX}px`;
         childBlock.style.top = `${positionY}px`;
         requestAnimationFrame(moveBlock);
     }
-    
+
     moveBlock();
 });
 
-
-//Homework part 3
+//Homework 2
 
 document.addEventListener("DOMContentLoaded", function () {
     const secondDisplay = document.getElementById("seconds");
@@ -132,19 +131,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
 })
 
+//Задание 3
+document.addEventListener("DOMContentLoaded", loadCharacters);
 
-//Homework 4 
+
+document.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelectorAll('.slide');
+    if (!slides.length) return;
+    let i = 0;
+
+    const show = n => {
+        slides.forEach(s => s.classList.remove('active'));
+        slides[n].classList.add('active');
+    };
+
+    setInterval(() => {
+        i = (i + 1) % slides.length;
+        show(i);
+    }, 3000);
+});
+
+
+//Homework 4
 function loadCharacters() {
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", "../data/characters.json", true); 
+    xhr.open("GET", "../data/characters.json", true);
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
                 try {
                     const characters = JSON.parse(xhr.responseText);
-                    console.log(characters); 
-                    displayCharacters(characters); 
+                    console.log(characters);
+                    displayCharacters(characters);
                 } catch (error) {
                     console.error("Ошибка при обработке данных:", error);
                 }
@@ -174,6 +193,6 @@ function displayCharacters(characters) {
     });
 }
 
-document.addEventListener("DOMContentLoaded", loadCharacters);  
+document.addEventListener("DOMContentLoaded", loadCharacters);
 
 
